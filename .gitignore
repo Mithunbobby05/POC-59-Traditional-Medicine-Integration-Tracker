@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Python virtual environments and bytecode
+.venv/
+__pycache__/
+*.py[cod]
+# Repomix generated output
+repomix-output.xml
