@@ -157,6 +157,7 @@ export default function Home() {
               regions={dashboard.licensingMap.regions}
               modality={modality}
               selectedRegion={regionCode}
+              search={search}
               onRegionSelect={setRegionCode}
             />
             <UsageTrends
@@ -164,6 +165,7 @@ export default function Home() {
               modality={modality}
               regionCode={regionCode}
               period={period}
+              search={search}
             />
           </div>
 
@@ -178,7 +180,7 @@ export default function Home() {
             />
           </div>
 
-          <ReferralFlow flows={dashboard.referralFlow.flows} />
+          <ReferralFlow flows={dashboard.referralFlow.flows} unit={dashboard.referralFlow.unit} />
 
           <div className="dashboard-grid context-grid">
             <WhyThisMatters />

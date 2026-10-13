@@ -19,7 +19,7 @@ export function WhoControlsRail({ sources }: WhoControlsRailProps) {
     { label: "Saudi SFDA", match: "Saudi SFDA", type: "Product registration" },
   ].map((reference) => ({
     ...reference,
-    available: sources.some((source) => source.intended_future_source.includes(reference.match)),
+    url: sources.find((source) => source.url && source.intended_future_source.includes(reference.match))?.url,
   }));
 
   return (
@@ -44,11 +44,11 @@ export function WhoControlsRail({ sources }: WhoControlsRailProps) {
       <div className="source-ecosystem">
         <span className="source-ecosystem-label">INTENDED REFERENCE ECOSYSTEM</span>
         <div className="source-reference-grid">
-          {references.filter((reference) => reference.available).map((reference) => (
-            <div className="source-reference" key={reference.label}>
+          {references.filter((reference) => reference.url).map((reference) => (
+            <a className="source-reference" href={reference.url ?? undefined} target="_blank" rel="noopener noreferrer" key={reference.label}>
               <span>{reference.label}</span>
-              <small>{reference.type}</small>
-            </div>
+              <small>{reference.type}<span className="source-external-icon" aria-hidden="true">↗</span></small>
+            </a>
           ))}
         </div>
         <p>Reference stakeholders only. Current dashboard values are synthetic and are not sourced from these organizations.</p>

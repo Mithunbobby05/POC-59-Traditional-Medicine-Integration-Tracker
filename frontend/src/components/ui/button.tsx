@@ -12,7 +12,7 @@ const buttonVariants = cva(
         outline: "border-[#34434b] bg-transparent text-[#b2bdc2] hover:border-[#5c8276] hover:text-[#83d5bb]",
         ghost: "border-transparent bg-transparent text-[#b2bdc2] hover:bg-[#16221f] hover:text-[#83d5bb]",
       },
-      size: { default: "h-9 px-4 text-xs", sm: "h-8 px-3 text-[9px]" },
+      size: { default: "h-9 px-4 text-xs", sm: "h-9 px-3 text-xs" },
     },
     defaultVariants: { variant: "default", size: "default" },
   },

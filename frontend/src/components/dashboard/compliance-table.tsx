@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import type { LicensingMapRegion, LicensingRankingsResponse } from "@/lib/types";
+import { matchesSearchTerms, parseSearchTerms } from "@/lib/search";
 import { Button } from "@/components/ui/button";
 
 interface ComplianceTableProps {
@@ -34,15 +35,15 @@ export function ComplianceTable({ rankings, regions, regionCode, modality, searc
     () => new Map(rankings.rankings.map((item) => [item.region_code, item.rank])),
     [rankings.rankings],
   );
-  const query = search.trim().toLocaleLowerCase();
+  const searchTerms = useMemo(() => parseSearchTerms(search), [search]);
   const rows = useMemo(() => regions
     .filter((region) => regionCode === "all" || region.region.code === regionCode)
     .flatMap((region) => region.licensing
       .filter((row) => modality === "all" || row.modality === modality)
       .map((row) => ({ ...row, rank: rankByRegion.get(region.region.code) ?? 0 })))
-    .filter((row) => !query || `${row.region_name} ${row.country} ${row.region_code} ${row.modality}`.toLocaleLowerCase().includes(query))
+    .filter((row) => matchesSearchTerms([row.region_name, row.country, row.region_code, row.modality], searchTerms))
     .sort((a, b) => a.rank - b.rank || b.compliance_rate - a.compliance_rate),
-  [regions, regionCode, modality, query, rankByRegion]);
+  [regions, regionCode, modality, searchTerms, rankByRegion]);
 
   const columns = useMemo<ColumnDef<ComplianceRow>[]>(() => [
     { accessorKey: "rank", header: "Rank", cell: ({ row }) => <span className={`rank-number ${row.index < 3 ? "rank-highlight" : ""}`}>{String(row.original.rank).padStart(2, "0")}</span> },

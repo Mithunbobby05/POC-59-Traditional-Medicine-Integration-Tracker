@@ -32,6 +32,7 @@ export function SummaryCards({ summary, events, regionCode, modality }: SummaryC
           <p>{card.note}</p>
         </article>
       ))}
+      <p className="summary-scope-note">Dataset totals are global. The active-alert count reflects the selected region and modality filters.</p>
     </section>
   );
 }

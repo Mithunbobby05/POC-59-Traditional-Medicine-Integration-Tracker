@@ -11,18 +11,24 @@ import {
 } from "react-simple-maps";
 import world from "world-atlas/countries-110m.json";
 import type { LicensingMapRegion } from "@/lib/types";
+import { matchesSearchTerms, parseSearchTerms } from "@/lib/search";
 
 interface LicensingMapProps {
   regions: LicensingMapRegion[];
   modality: string;
   selectedRegion: string;
+  search: string;
   onRegionSelect: (regionCode: string) => void;
 }
 
-function getRegionMetrics(region: LicensingMapRegion, modality: string) {
-  const rows = modality === "all"
-    ? region.licensing
-    : region.licensing.filter((row) => row.modality === modality);
+function getRegionMetrics(region: LicensingMapRegion, modality: string, searchTerms: readonly string[]) {
+  const rows = region.licensing.filter((row) =>
+    (modality === "all" || row.modality === modality)
+    && matchesSearchTerms(
+      [region.region.name, region.region.country, region.region.code, row.modality],
+      searchTerms,
+    ),
+  );
   const total = rows.reduce((sum, row) => sum + row.total_licenses, 0);
   const compliant = rows.reduce((sum, row) => sum + row.compliant_licenses, 0);
 
@@ -40,13 +46,19 @@ function complianceColor(rate: number) {
   return "#df8277";
 }
 
-export function LicensingMap({ regions, modality, selectedRegion, onRegionSelect }: LicensingMapProps) {
+export function LicensingMap({ regions, modality, selectedRegion, search, onRegionSelect }: LicensingMapProps) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+  const searchTerms = useMemo(() => parseSearchTerms(search), [search]);
   const regionMetrics = useMemo(
-    () => new Map(regions.map((region) => [region.region.code, getRegionMetrics(region, modality)])),
-    [regions, modality],
+    () => new Map(regions.map((region) => [region.region.code, getRegionMetrics(region, modality, searchTerms)])),
+    [regions, modality, searchTerms],
   );
-  const activeRegion = regions.find((item) => item.region.code === (hoveredRegion ?? selectedRegion)) ?? regions[0];
+  const visibleRegions = regions.filter((region) =>
+    (selectedRegion === "all" || region.region.code === selectedRegion)
+    && (regionMetrics.get(region.region.code)?.modalities ?? 0) > 0,
+  );
+  const activeRegion = visibleRegions.find((item) => item.region.code === hoveredRegion)
+    ?? visibleRegions.find((item) => item.region.code === selectedRegion);
   const activeMetrics = activeRegion ? regionMetrics.get(activeRegion.region.code) : undefined;
 
   return (
@@ -80,7 +92,7 @@ export function LicensingMap({ regions, modality, selectedRegion, onRegionSelect
                 />
               ))}
             </Geographies>
-            {regions.map((region) => {
+            {visibleRegions.map((region) => {
               const metrics = regionMetrics.get(region.region.code);
               if (!metrics) return null;
               const isActive = selectedRegion === "all" || selectedRegion === region.region.code;
@@ -129,7 +141,7 @@ export function LicensingMap({ regions, modality, selectedRegion, onRegionSelect
         <span className="legend-size">Marker size = licenses</span>
       </div>
 
-      {activeRegion && activeMetrics && (
+      {activeRegion && activeMetrics ? (
         <div className="map-detail" aria-live="polite">
           <div>
             <span className="map-detail-code">{activeRegion.region.code}</span>
@@ -142,7 +154,7 @@ export function LicensingMap({ regions, modality, selectedRegion, onRegionSelect
             <small>{activeMetrics.compliant.toLocaleString()} / {activeMetrics.total.toLocaleString()} compliant</small>
           </div>
         </div>
-      )}
+      ) : <p className="panel-empty map-selection-prompt">Hover over or select a region to see its licensing details.</p>}
       <p className="map-footnote">Point placement uses API coordinates. Country outlines are for geographic orientation; all licensing values are synthetic.</p>
     </section>
   );

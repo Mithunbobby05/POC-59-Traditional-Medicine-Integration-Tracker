@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import type { UsageObservation } from "@/lib/types";
+import { matchesSearchTerms, parseSearchTerms } from "@/lib/search";
 import type { PeriodLength } from "./dashboard-filters";
 
 const SERIES_COLORS = ["#86d7c0", "#8bb7e6", "#e2bd7a", "#bd9ce8", "#e38b7c"];
@@ -21,17 +22,20 @@ interface UsageTrendsProps {
   modality: string;
   regionCode: string;
   period: PeriodLength;
+  search: string;
 }
 
 function formatMonth(period: string) {
   return new Date(`${period}-01T00:00:00`).toLocaleDateString("en", { month: "short", year: "2-digit" });
 }
 
-export function UsageTrends({ observations, modality, regionCode, period }: UsageTrendsProps) {
+export function UsageTrends({ observations, modality, regionCode, period, search }: UsageTrendsProps) {
+  const searchTerms = useMemo(() => parseSearchTerms(search), [search]);
   const { chartData, modalities } = useMemo(() => {
     const filtered = observations.filter((item) =>
       (regionCode === "all" || item.region_code === regionCode)
-      && (modality === "all" || item.modality === modality),
+      && (modality === "all" || item.modality === modality)
+      && matchesSearchTerms([item.region_name, item.region_code, item.modality], searchTerms),
     );
     const periods = [...new Set(filtered.map((item) => item.period))].sort().slice(-period);
     const names = [...new Set(filtered.map((item) => item.modality))];
@@ -44,7 +48,7 @@ export function UsageTrends({ observations, modality, regionCode, period }: Usag
     });
 
     return { chartData: records, modalities: names };
-  }, [observations, modality, regionCode, period]);
+  }, [observations, modality, regionCode, period, searchTerms]);
 
   return (
     <section className="panel trend-panel">
@@ -55,7 +59,7 @@ export function UsageTrends({ observations, modality, regionCode, period }: Usag
         </div>
         <span className="panel-index">02 / MONTHLY</span>
       </div>
-      <p className="panel-description">Synthetic monthly observations · totals across the selected region.</p>
+      <p className="panel-description">Synthetic monthly totals for regions and modalities matching the current filters.</p>
       <div className="chart-wrap">
         {chartData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">

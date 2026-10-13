@@ -1,4 +1,5 @@
 import type { AdverseEvent } from "@/lib/types";
+import { matchesSearchTerms, parseSearchTerms } from "@/lib/search";
 
 interface AdverseEventsProps {
   events: AdverseEvent[];
@@ -10,11 +11,11 @@ interface AdverseEventsProps {
 const severityOrder = { high: 0, moderate: 1, low: 2 };
 
 export function AdverseEvents({ events, regionCode, modality, search }: AdverseEventsProps) {
-  const query = search.trim().toLocaleLowerCase();
+  const searchTerms = parseSearchTerms(search);
   const visibleEvents = events
     .filter((event) => (regionCode === "all" || event.region_code === regionCode)
       && (modality === "all" || event.modality === modality)
-      && (!query || `${event.region_name} ${event.region_code} ${event.modality}`.toLocaleLowerCase().includes(query)))
+      && matchesSearchTerms([event.region_name, event.region_code, event.modality], searchTerms))
     .sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]
       || b.report_date.localeCompare(a.report_date));
 
