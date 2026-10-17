@@ -5,7 +5,7 @@
 
 ## 1. Scope and evidence standard
 
-This Verification and Acceptance Review (VAR) covers the repository state inspected on 13 October 2026: the frontend, backend, API routes and live local responses, mock-data files and documentation, README, package scripts, and Git status. The review did not modify application code, install or change dependencies, commit, or push.
+This Verification and Acceptance Review (VAR) originally covered the repository state inspected on 13 October 2026: the frontend, backend, API routes and live local responses, mock-data files and documentation, README, package scripts, and Git status. The technical verification table also records the subsequently reported TypeScript, lint, and production-build results; those commands were not rerun for this documentation update.
 
 The original Real Rails POC-59 Excel specification and separate official instruction or screenshot package were not found in the repository. This report therefore checks against the known POC-59 requirements supplied for this review and the repository documentation. Any requirement that depends on unavailable official materials is marked accordingly; the supplied list cannot establish whether additional spreadsheet-specific criteria apply.
 
@@ -42,10 +42,10 @@ Evidence labels:
 
 | Check | Result | Evidence / limitation |
 |---|---|---|
-| `npx tsc --noEmit` | **PASS** | Executed in `frontend/`; exit code 0, no diagnostics. |
-| `git diff --check` | **PASS** | Exit code 0. Git emitted LF-to-CRLF working-copy warnings for existing modified text files; no whitespace errors were reported. |
-| `npm run lint` | **NOT VERIFIED** | Executed in `frontend/`; ESLint started but returned no result after 30 seconds. It was interrupted. Do not interpret interruption as a successful lint run. The README also records a previous stall. |
-| `npm run build` | **NOT VERIFIED** | Not run in this read-only VAR because Next.js build generates/updates `.next` output. The README says the production build has not been verified against the latest frontend changes. |
+| `npx tsc --noEmit` | **PASS** | Previously recorded run in `frontend/`; exit code 0. Not rerun for this documentation update. |
+| `git diff --check` | **PASS** | The recorded check passed with no whitespace errors. It was run after this documentation update as requested; frontend TypeScript, lint, and build checks were not rerun. |
+| `npm run lint` | **PASS** | Previously recorded run in `frontend/`; exit code 0 in approximately 9.13 seconds. Not rerun for this documentation update. |
+| `npm run build` | **PASS** | Previously recorded run in `frontend/`; exit code 0. Not rerun for this documentation update. |
 | Backend `/health` | **PASS** | Live GET to `http://127.0.0.1:8000/health` returned `{"status":"ok"}`. |
 | Seven API endpoints | **PASS** | Live GETs to `/api/dashboard/summary`, `/api/licensing/map`, `/api/usage/trends`, `/api/adverse-events`, `/api/licensing/rankings`, `/api/referrals/flow`, and `/api/sources` returned parseable JSON and synthetic-data status. |
 | Local CORS | **PASS** | Request with Origin `http://localhost:3000` returned `Access-Control-Allow-Origin: http://localhost:3000`. |
@@ -67,11 +67,11 @@ The following outcomes were reported by the user and are recorded as **USER-REPO
 - Global region and modality filters
 - Mobile layout at approximately 390px
 
-No browser automation or interactive browser session was performed for this VAR. User reports are not treated as proof of production build success or external-source availability.
+No browser automation or interactive browser session was performed for this VAR. User-reported browser outcomes remain distinct from the recorded command results; neither establishes external-source availability.
 
 ## 5. Source scope and synthetic-data limitations
 
-The intended future references documented by the project are WHO Traditional Medicine Strategy, UAE MOHAP complementary-medicine licensing information, Dubai Health Authority TCAM materials, and Saudi SFDA herbal-product information. The current code does not query these sources. The synthetic licensing counts, usage volumes, alert examples, and referral transitions must not be interpreted as real registries, clinical events, observed patient volumes, or measured referrals.
+The intended future references documented by the project are WHO Traditional Medicine Strategy, UAE MOHAP practitioner licensing, Dubai Health Authority TCAM materials, and Saudi SFDA herbal-product registration data. The MOHAP reference has been corrected to its official health-professional licensing application service. This service is not verified as a public searchable complementary-medicine practitioner registry; no public practitioner data feed or API has been verified. The code does not query MOHAP, and no MOHAP integration exists. The specified registry/source-integration gap remains unresolved. The DHA reference description has been corrected to identify the linked resource as the Health Regulation Department's August 2011 TCAM Scope of Practice guidance. This is related background, not the specified traditional-medicine department reports; no DHA data integration exists, so the reports-source gap remains unresolved. The linked SFDA source is the official Herbal Drugs page with searchable herbal-drug product listings and registration details, making it relevant to the specified herbal-product registration requirement. No downloadable dataset or API was verified, and the code does not retrieve or integrate SFDA data. The synthetic licensing counts, usage volumes, alert examples, and referral transitions must not be interpreted as real registries, clinical events, observed patient volumes, or measured referrals.
 
 The project documents Qatar as a synthetic Gulf-market example with no connected source. The original Excel specification was unavailable, so the suitability of Qatar cannot be confirmed against that source.
 
@@ -95,15 +95,13 @@ Confirm which of these are mandatory against the official Real Rails submission 
 
 ## 7. Outstanding risks and limitations
 
-1. **npm audit finding remains unresolved.** The repository README records a prior report of five high-severity findings in the development ESLint/Next.js dependency chain, traced to `braces` advisory `GHSA-vfj7-8cjw-p6xm`. The prior investigation did not identify a compatible patched solution and did not apply a suggested major-version downgrade because compatibility was unestablished. This VAR did not run a fresh advisory query or change dependencies. A read-only `npm ls` confirmed `braces@3.0.3` under `eslint-config-next@16.3.8`; that tree alone does not resolve current advisory status or production impact.
-2. **Lint is unresolved for this environment.** `npm run lint` stalled without output and was interrupted; the project README records the same limitation.
-3. **Production build is unverified.** It was not run during this read-only review.
-4. **Official-spec coverage is incomplete.** The authoritative Excel and separate submission instructions were not present, so spreadsheet-specific requirements and deliverable mandates remain unknown.
-5. **Some browser evidence is user-reported only.** The specified UAT list is recorded above, but not independently reproduced in this VAR.
-6. **Qatar suitability is not confirmed against the original specification.** Documentation is clear that it is a synthetic Gulf-market example with no connected source.
+1. **npm audit finding remains unresolved.** The recorded audit reported five high-severity findings associated with one `braces` advisory, `GHSA-vfj7-8cjw-p6xm`, in the development ESLint/Next.js dependency chain. No dependency fix was applied. The prior investigation did not identify a compatible patched solution and did not apply a suggested major-version downgrade because compatibility was unestablished. This VAR did not run a fresh advisory query or change dependencies. A read-only `npm ls` confirmed `braces@3.0.3` under `eslint-config-next@16.3.8`; that tree alone does not resolve current advisory status or production impact.
+2. **Official-spec coverage is incomplete.** The authoritative Excel and separate submission instructions were not present, so spreadsheet-specific requirements and deliverable mandates remain unknown.
+3. **Some browser evidence is user-reported only.** The specified UAT list is recorded above, but not independently reproduced in this VAR.
+4. **Qatar suitability is not confirmed against the original specification.** Documentation is clear that it is a synthetic Gulf-market example with no connected source.
 
 ## 8. Final VAR recommendation
 
-**NOT READY for progression to UAT through the VAR approval gate.** Core POC features and APIs are present, synthetic-data provenance is consistently represented in the inspected responses and documentation, TypeScript and whitespace checks passed, and the user has reported successful UAT interactions. However, lint has no completed result, production build has not been verified, the known high-severity audit finding remains unresolved, and the authoritative Excel/submission materials were unavailable. These items require reviewer disposition and any required official-spec check before the project is represented as having cleared VAR.
+**NOT READY for progression to UAT through the VAR approval gate.** Core POC features and APIs are present, synthetic-data provenance is consistently represented in the inspected responses and documentation, and the recorded TypeScript, lint, production build, and whitespace checks passed. The user has reported successful UAT interactions, which remain distinct from independent browser verification. However, the known high-severity audit finding remains unresolved, specified source gaps remain, and the authoritative Excel/submission materials were unavailable. These items require reviewer disposition and any required official-spec check before the project is represented as having cleared VAR.
 
 This is a recommendation based on available evidence, not an approval. The next workflow action is for the project reviewer/owner to review this VAR and resolve or explicitly disposition the listed blockers. Only after that gate is accepted should the workflow formally progress; UAT browser outcomes above remain user-reported evidence and should be recorded in the separate UAT stage deliverable when authorized.

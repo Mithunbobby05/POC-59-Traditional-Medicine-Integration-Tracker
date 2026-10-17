@@ -14,9 +14,9 @@ const controlLayers = [
 export function WhoControlsRail({ sources }: WhoControlsRailProps) {
   const references = [
     { label: "WHO Traditional Medicine Strategy", match: "WHO Traditional Medicine Strategy", type: "Reference framework" },
-    { label: "UAE MOHAP", match: "UAE MOHAP", type: "Facility licensing" },
-    { label: "Dubai Health Authority", match: "Dubai Health Authority", type: "Health authority reports" },
-    { label: "Saudi SFDA", match: "Saudi SFDA", type: "Product registration" },
+    { label: "UAE MOHAP", match: "UAE MOHAP", type: "Practitioner licensing service" },
+    { label: "TCAM scope-of-practice guidance", match: "Dubai Health Authority", type: "DHA guidance · Aug 2011" },
+    { label: "Saudi SFDA", match: "Saudi SFDA", type: "SFDA herbal-drug product listings" },
   ].map((reference) => ({
     ...reference,
     url: sources.find((source) => source.url && source.intended_future_source.includes(reference.match))?.url,
@@ -50,7 +50,7 @@ export function WhoControlsRail({ sources }: WhoControlsRailProps) {
             </a>
           ))}
         </div>
-        <p>Reference stakeholders only. Current dashboard values are synthetic and are not sourced from these organizations.</p>
+        <p>Reference links only. The MOHAP page describes a practitioner-licensing application service; it is not a verified public registry or connected data feed. Current dashboard values remain synthetic and are not sourced from these organizations.</p>
       </div>
     </section>
   );

@@ -130,18 +130,18 @@ The synthetic geographic examples are the United Arab Emirates, Saudi Arabia, an
 These are intended future references only; they do not provide the current dashboard values and are not queried by the application:
 
 - [WHO Traditional Medicine Strategy](https://www.who.int/publications/i/item/9789240113176)
-- [UAE MOHAP final approval for health facility licensing, including traditional and complementary medicine centers](https://mohap.gov.ae/en/w/final-approval-for-licensing-re-licensing-health-facility)
-- [Dubai Health Authority TCAM practice guidance](https://dha.gov.ae/uploads/112021/8ffadaa8-95d2-42e8-8c9a-f75fcc532873.pdf)
-- [Saudi SFDA herbal-product information](https://www.sfda.gov.sa/en/herbal-drugs)
+- [UAE MOHAP licensing or re-licensing service for health professionals](https://mohap.gov.ae/en/w/licensing-or-re-licensing-of-health-professional) — an application service reference, not a verified public searchable complementary-medicine practitioner registry or connected data feed.
+- [Dubai Health Authority TCAM Scope of Practice guidance (August 2011)](https://dha.gov.ae/uploads/112021/8ffadaa8-95d2-42e8-8c9a-f75fcc532873.pdf) — related DHA guidance, not the POC-59-specified traditional-medicine department reports.
+- [Saudi SFDA Herbal Drugs searchable product listings and registration details](https://www.sfda.gov.sa/en/herbal-drugs) — reference only; the application does not retrieve this data, and no downloadable dataset or API was verified during review.
 
-The current POC does not specify a Saudi practitioner-licensing source or a specific source for adverse-event or referral-flow values. No such source connection is implied.
+The linked DHA PDF is the Health Regulation Department's August 2011 TCAM Scope of Practice document. It is related guidance, not the specified traditional-medicine department reports; no DHA data integration exists. The MOHAP page is an official practitioner-licensing application service. It has not been verified as a public searchable complementary-medicine practitioner registry, and no public complementary-medicine practitioner data feed or API has been verified. The application does not connect to MOHAP; dashboard licensing and usage values remain synthetic. The current POC does not specify a Saudi practitioner-licensing source or a specific source for adverse-event or referral-flow values. No such source connection is implied.
 
 ## Verification status and known limitations
 
-At the latest recorded frontend scope check, the TypeScript no-emit check passed. `npm run lint` stalled without returning a result. Browser interactions and the production build have not been verified against the latest frontend changes. No automated frontend test script or backend test suite is present in the repository.
+Recorded frontend verification results are: `npx tsc --noEmit` passed with exit code 0; `npm run build` passed with exit code 0; and `npm run lint` passed with exit code 0 in approximately 9.13 seconds. These are previously recorded results and were not rerun for this documentation update. Backend health and all seven API endpoints previously returned HTTP 200. Browser interactions remain user-reported rather than independently verified. No automated frontend test script or backend test suite is present in the repository.
 
 The dashboard depends on the local FastAPI backend for data. If it is not running at the configured API address, the frontend displays an API connection error. The mock-data export command overwrites its output files. No authentication, database, deployment setup, or external data integration is included in this POC.
 
 ## Known npm audit finding
 
-A reported npm audit identified five high-severity findings in a development-only ESLint/Next.js dependency chain. The findings trace through that chain to the reported `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm). The current investigation did not identify a compatible patched dependency solution for this project's Next.js version. No dependency changes were applied. The audit's suggested major-version downgrade was not applied because compatibility with the project's Next.js version was not established. This dependency finding remains unresolved and requires follow-up; this note does not claim that the vulnerability is fixed or establish that it cannot affect production.
+A reported npm audit identified five high-severity findings associated with one unresolved `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) in a development-only ESLint/Next.js dependency chain. No dependency fix was applied. The audit's suggested major-version downgrade was not applied because compatibility with this project's Next.js version was not established. This finding remains unresolved and requires follow-up; this note does not claim that the vulnerability is fixed or establish that it cannot affect production.
