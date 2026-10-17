@@ -112,11 +112,11 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 
 ### UAT-09 — Search syntax variants and AND matching
 
-- **Steps:** Compare `Qatar,Ayurveda` with `Qatar, Ayurveda`; change capitalization; reverse the term order; try a term pair that should not match one record. Clear the field.
+- **Steps:** Search for `Qatar`, `Ayurveda`, `Qatar,Ayurveda`, `Qatar Ayurveda`, and `XYZ12345`; observe the results for each query.
 - **Expected:** Whitespace around commas and capitalization do not change matching. All terms must match the same record; empty search restores the dropdown-filtered results.
-- **Actual result:** The general comma-separated search feature was user-reported successful; these exact variants and negative case have no recorded result.
-- **Status:** NOT TESTED
-- **Evidence / notes:** Expected behavior follows `parseSearchTerms` and `matchesSearchTerms` in `frontend/src/lib/search.ts`; not independently exercised in a browser.
+- **Actual result:** **PASS (USER-REPORTED)** — the user reported that `Qatar`, `Ayurveda`, `Qatar,Ayurveda`, `Qatar Ayurveda`, and `XYZ12345` all behaved as expected. This result was not independently verified.
+- **Status:** PASS (USER-REPORTED)
+- **Evidence / notes:** Search implementation in `frontend/src/lib/search.ts`; UI wiring in `frontend/src/app/page.tsx`.
 
 ### UAT-10 — Search combined with dropdown filters and reset
 
@@ -202,9 +202,9 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 
 - **Steps:** Open the downloaded CSV. Check the synthetic warning, column headers, data rows, and whether rows reflect the current search/region/modality filters. Compare a few exported values with the visible table.
 - **Expected:** The file begins with `SYNTHETIC DATA — NOT REAL`, includes the ranking/licensing fields, and contains the filtered displayed records with matching values. No data is described as real.
-- **Actual result:** CSV export action is **PASS (USER-REPORTED)** under UAT-19. No result was reported for opening the downloaded file and validating its contents or filtered rows.
-- **Status:** NOT TESTED
-- **Evidence / notes:** Implementation builds the CSV from filtered table rows; file content still needs browser/download verification.
+- **Actual result:** **PASS (USER-REPORTED)** — the user reported that both the full CSV export and a filtered UAE + Ayurveda export passed, including checks of the exported contents. This result was not independently verified.
+- **Status:** PASS (USER-REPORTED)
+- **Evidence / notes:** Export implementation is in `compliance-table.tsx`; no independent download/content verification was performed for this checklist.
 
 ### UAT-21 — Source provenance and synthetic snapshot timestamp
 
@@ -259,9 +259,9 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 | Measure | Result |
 |---|---|
 | Total cases | 26 |
-| User-reported passes | 23 — not independently repeated |
+| User-reported passes | 25 — not independently repeated |
 | Independently performed browser UAT passes | 0 |
-| Not tested | 2 |
+| Not tested | 0 |
 | Partial (includes blocked destination) | 1 |
 | Failures recorded | 0 |
 | Blocked destination results | 1 (MOHAP URL; UAT-17) |
@@ -271,7 +271,7 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 
 ### User-reported pass coverage
 
-The reported successful checks are recorded only as **PASS (USER-REPORTED)**. These include dashboard refresh/final visibility (UAT-01), summary cards (UAT-02), map interactions (UAT-03), region and modality filters (UAT-04–05), Usage Trends and its period filter (UAT-06–07), global search (UAT-08), combined filters (UAT-10), Licensing Compliance (UAT-11), adverse events and empty behavior (UAT-12–13), referral visualization/tooltips (UAT-14–16), source-link interaction (UAT-17), Why This Matters (UAT-18), CSV export action (UAT-19), synthetic-data disclaimer/timestamp (UAT-21), empty states (UAT-22), keyboard navigation (UAT-23), responsive layout near 390px (UAT-24), filter reset using UAE, Ayurveda, and a Qatar search (UAT-25), and browser Console (UAT-26). Exact inputs and detailed evidence were not always recorded. UAT-09’s specific syntax variants and UAT-20’s CSV contents remain NOT TESTED. MOHAP destination loading remains UNVERIFIED / BLOCKED under UAT-17.
+The reported successful checks are recorded only as **PASS (USER-REPORTED)**. These include dashboard refresh/final visibility (UAT-01), summary cards (UAT-02), map interactions (UAT-03), region and modality filters (UAT-04–05), Usage Trends and its period filter (UAT-06–07), global search and syntax variants (UAT-08–09), combined filters (UAT-10), Licensing Compliance (UAT-11), adverse events and empty behavior (UAT-12–13), referral visualization/tooltips (UAT-14–16), source-link interaction (UAT-17), Why This Matters (UAT-18), CSV export action and full/filtered contents (UAT-19–20), synthetic-data disclaimer/timestamp (UAT-21), empty states (UAT-22), keyboard navigation (UAT-23), responsive layout near 390px (UAT-24), filter reset using UAE, Ayurveda, and a Qatar search (UAT-25), and browser Console (UAT-26). Exact inputs and detailed evidence were not always recorded. All reported passes remain user-reported, not independently verified. MOHAP destination loading remains UNVERIFIED / BLOCKED under UAT-17.
 
 ## Known limitations and outstanding issues
 
@@ -288,4 +288,4 @@ These are carried forward from `VAR_REPORT.md` and are not marked resolved by th
 
 ## Completion and approval
 
-UAT remains **IN PROGRESS**: 23 cases have user-reported passes, 2 remain untested, and UAT-17 is partial because the MOHAP destination is blocked. No browser UAT pass was independently performed for this checklist. This checklist does not grant or imply formal Real Rails approval. Record the tester, date, environment, actual result, and evidence for any newly executed case; preserve USER-REPORTED labels unless a result is independently repeated.
+UAT remains **IN PROGRESS**: 25 cases have user-reported passes, none are marked NOT TESTED, and UAT-17 is partial because the MOHAP destination is blocked. No browser UAT pass was independently performed for this checklist. This checklist does not grant or imply formal Real Rails approval. Record the tester, date, environment, actual result, and evidence for any newly executed case; preserve USER-REPORTED labels unless a result is independently repeated.
