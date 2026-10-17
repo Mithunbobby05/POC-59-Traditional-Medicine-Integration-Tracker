@@ -277,8 +277,8 @@ The reported successful checks are recorded only as **PASS (USER-REPORTED)**. Th
 
 These are carried forward from `VAR_REPORT.md` and are not marked resolved by this checklist:
 
-- Previously recorded technical verification: `npx tsc --noEmit`, `npm run build`, and `npm run lint` passed with exit code 0; lint took approximately 9.13 seconds. Backend health and all seven API endpoints previously returned HTTP 200. These commands were not rerun for this documentation update and do not count as browser UAT.
-- A previously reported high-severity npm audit finding in the development ESLint/Next.js dependency chain, traced to the `braces` advisory `GHSA-vfj7-8cjw-p6xm`, remains unresolved. No dependency change is recorded here.
+- Technical verification rerun during the final audit on 18 October 2026: `npx tsc --noEmit`, `npm run lint`, and `npm run build` passed with exit code 0. Prior backend health and seven API endpoint checks returned HTTP 200 but were not rerun because FastAPI was unavailable in the audit environment. These checks do not count as browser UAT.
+- `npm audit --json` on 18 October 2026 reported five high-severity package findings associated with the unresolved `braces` advisory `GHSA-vfj7-8cjw-p6xm` in the development ESLint/Next.js dependency chain. The advisory lists no patched version; npm's suggested `eslint-config-next@14.2.35` remediation is a major downgrade and was not applied. No dependency change was made.
 - Browser interactions in the VAR were user-reported and were not independently tested during that audit.
 - The original POC-59 Excel specification and separate official instructions were unavailable in the repository; any additional official test criteria or deliverable rules remain to be confirmed.
 - Qatar is documented as a synthetic Gulf-market example with no connected source, but its acceptance against the unavailable authoritative specification is not verified.

@@ -5,7 +5,7 @@
 
 ## 1. Scope and evidence standard
 
-This Verification and Acceptance Review (VAR) originally covered the repository state inspected on 13 October 2026: the frontend, backend, API routes and live local responses, mock-data files and documentation, README, package scripts, and Git status. The technical verification table also records the subsequently reported TypeScript, lint, and production-build results; those commands were not rerun for this documentation update.
+This Verification and Acceptance Review (VAR) originally covered the repository state inspected on 13 October 2026: the frontend, backend, API routes and live local responses, mock-data files and documentation, README, package scripts, and Git status. During the final audit on 18 October 2026, frontend TypeScript, lint, and production build were rerun. Backend runtime checks could not be repeated because FastAPI is not installed in the available Python environment; dependencies were not installed.
 
 The original Real Rails POC-59 Excel specification and separate official instruction or screenshot package were not found in the repository. This report therefore checks against the known POC-59 requirements supplied for this review and the repository documentation. Any requirement that depends on unavailable official materials is marked accordingly; the supplied list cannot establish whether additional spreadsheet-specific criteria apply.
 
@@ -42,12 +42,12 @@ Evidence labels:
 
 | Check | Result | Evidence / limitation |
 |---|---|---|
-| `npx tsc --noEmit` | **PASS** | Previously recorded run in `frontend/`; exit code 0. Not rerun for this documentation update. |
-| `git diff --check` | **PASS** | The recorded check passed with no whitespace errors. It was run after this documentation update as requested; frontend TypeScript, lint, and build checks were not rerun. |
-| `npm run lint` | **PASS** | Previously recorded run in `frontend/`; exit code 0 in approximately 9.13 seconds. Not rerun for this documentation update. |
-| `npm run build` | **PASS** | Previously recorded run in `frontend/`; exit code 0. Not rerun for this documentation update. |
-| Backend `/health` | **PASS** | Live GET to `http://127.0.0.1:8000/health` returned `{"status":"ok"}`. |
-| Seven API endpoints | **PASS** | Live GETs to `/api/dashboard/summary`, `/api/licensing/map`, `/api/usage/trends`, `/api/adverse-events`, `/api/licensing/rankings`, `/api/referrals/flow`, and `/api/sources` returned parseable JSON and synthetic-data status. |
+| `npx tsc --noEmit` | **PASS** | Rerun in `frontend/` during the final audit on 18 October 2026; exit code 0. |
+| `git diff --check` | **PASS** | Rerun after the final audit documentation changes; no whitespace errors. |
+| `npm run lint` | **PASS** | Rerun in `frontend/` during the final audit on 18 October 2026; exit code 0. |
+| `npm run build` | **PASS** | Rerun in `frontend/` during the final audit on 18 October 2026; exit code 0; production build completed. |
+| Backend `/health` | **PASS — PREVIOUSLY VERIFIED; NOT RERUN** | A prior live GET to `http://127.0.0.1:8000/health` returned `{"status":"ok"}`. The final audit could not rerun it because FastAPI is not installed in the available Python environment. |
+| Seven API endpoints | **PASS — PREVIOUSLY VERIFIED; NOT RERUN** | Prior live GETs to `/api/dashboard/summary`, `/api/licensing/map`, `/api/usage/trends`, `/api/adverse-events`, `/api/licensing/rankings`, `/api/referrals/flow`, and `/api/sources` returned parseable JSON and synthetic-data status. They could not be rerun in the final audit because FastAPI is unavailable. |
 | Local CORS | **PASS** | Request with Origin `http://localhost:3000` returned `Access-Control-Allow-Origin: http://localhost:3000`. |
 | Frontend/backend runtime connection | **PARTIAL** | The frontend local URL responded with dashboard content in the prior read-only review, and the backend endpoints were live. Full browser data rendering and interaction were not independently tested in this VAR. |
 | Frontend test suite | **NOT VERIFIED** | `frontend/package.json` has dev/build/start/lint scripts and no test script. No backend test suite was found in the repository. |
@@ -81,27 +81,17 @@ At review time, branch was `main`, latest commit was `a4d27af` (`Complete POC-59
 
 Ignore rules cover `frontend/.env.local`, `frontend/node_modules`, `frontend/.next`, `backend/.venv`, and root `repomix-output.xml`. Git ignore/status inspection showed these paths absent from the current staged/worktree change list; `repomix-output.xml` is ignored and untracked. No credentials were found among tracked paths during the repository review. Review the intended staging set independently before any future commit.
 
-Available documentation includes root `README.md`, `mock_data/README.md`, and `mock_data/data_dictionary.md`. The README includes local setup, architecture, endpoints, data limitations, current verification caveats, and the known audit issue. The following submission deliverables were not found in the repository:
-
-- `VAR_REPORT.md` (this report is the requested new VAR deliverable)
-- `UAT_CHECKLIST.md` (do not create until the UAT stage)
-- Screenshot package
-- Demo video
-- Standalone architecture summary (architecture is described in README)
-- Deployment notes (README states deployment setup is not included)
-- Original POC-59 Excel specification and separate official instruction/screenshots
-
-Confirm which of these are mandatory against the official Real Rails submission instructions, which were not available in the repository.
+Available documentation includes root `README.md`, `VAR_REPORT.md`, `UAT_CHECKLIST.md`, `mock_data/README.md`, and `mock_data/data_dictionary.md`. The README includes local setup, architecture, endpoints, data limitations, current verification caveats, and the known audit issue. The original POC-59 Excel specification and separate official Phase 1 submission instructions were not found in the repository. A screenshot package, demo video, standalone architecture document, and deployment materials were also not found; their submission status is unknown because no authoritative instructions confirming them as mandatory were located. Architecture is described in README; deployment setup is explicitly not included.
 
 ## 7. Outstanding risks and limitations
 
-1. **npm audit finding remains unresolved.** The recorded audit reported five high-severity findings associated with one `braces` advisory, `GHSA-vfj7-8cjw-p6xm`, in the development ESLint/Next.js dependency chain. No dependency fix was applied. The prior investigation did not identify a compatible patched solution and did not apply a suggested major-version downgrade because compatibility was unestablished. This VAR did not run a fresh advisory query or change dependencies. A read-only `npm ls` confirmed `braces@3.0.3` under `eslint-config-next@16.3.8`; that tree alone does not resolve current advisory status or production impact.
+1. **npm audit finding remains unresolved.** `npm audit --json` on 18 October 2026 exited 1 with five high-severity package findings associated with one `braces` advisory, `GHSA-vfj7-8cjw-p6xm`, in the development chain `eslint-config-next@16.3.8` → `@next/eslint-plugin-next@16.3.8` → `fast-glob@3.3.1` → `micromatch@4.0.8` → `braces@3.0.3`. The official advisory currently lists no patched `braces` version. npm suggests `eslint-config-next@14.2.35`, a major downgrade from the project's Next.js 16 setup; this was not applied because compatibility is unverified. `npm ls --omit=dev` showed the affected packages absent from the production dependency tree, and `npm audit --omit=dev --json` reported zero findings. This does not establish that the application is secure or that the development-tooling issue cannot affect production. No dependency was changed.
 2. **Official-spec coverage is incomplete.** The authoritative Excel and separate submission instructions were not present, so spreadsheet-specific requirements and deliverable mandates remain unknown.
 3. **Some browser evidence is user-reported only.** The specified UAT list is recorded above, but not independently reproduced in this VAR.
 4. **Qatar suitability is not confirmed against the original specification.** Documentation is clear that it is a synthetic Gulf-market example with no connected source.
 
 ## 8. Final VAR recommendation
 
-**NOT READY for progression to UAT through the VAR approval gate.** Core POC features and APIs are present, synthetic-data provenance is consistently represented in the inspected responses and documentation, and the recorded TypeScript, lint, production build, and whitespace checks passed. The user has reported successful UAT interactions, which remain distinct from independent browser verification. However, the known high-severity audit finding remains unresolved, specified source gaps remain, and the authoritative Excel/submission materials were unavailable. These items require reviewer disposition and any required official-spec check before the project is represented as having cleared VAR.
+**GAPS REMAIN — do not represent this audit as formal approval or completed Phase 1 submission.** Frontend TypeScript, lint, and production build passed in the final audit; prior backend health/API results remain recorded but could not be rerun because FastAPI is unavailable. UAT remains in progress with 25 user-reported passes, UAT-17 partial, and zero independently performed browser passes. The high-severity development dependency advisory remains unresolved. The specified MOHAP registry and DHA department-report source requirements remain unverified, all dashboard values remain synthetic, and the authoritative spreadsheet and Phase 1 submission instructions were not located. The actual mandatory deliverables and any approval workflow therefore cannot be confirmed from available project files.
 
-This is a recommendation based on available evidence, not an approval. The next workflow action is for the project reviewer/owner to review this VAR and resolve or explicitly disposition the listed blockers. Only after that gate is accepted should the workflow formally progress; UAT browser outcomes above remain user-reported evidence and should be recorded in the separate UAT stage deliverable when authorized.
+This is a readiness assessment based on available evidence, not an approval. The project owner must obtain or identify the authoritative specification/submission instructions, complete or disposition UAT-17 and other required independent browser checks, and obtain reviewer disposition of the audit and source gaps before claiming submission readiness.
