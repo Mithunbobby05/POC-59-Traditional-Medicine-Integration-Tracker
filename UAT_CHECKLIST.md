@@ -178,9 +178,9 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 
 - **Steps:** Open each displayed reference link and confirm it navigates to the linked reference. Return to the dashboard and verify the synthetic-data provenance copy remains clear.
 - **Expected:** Links are clickable and open their intended future-reference destinations. The UI does not imply that those organizations supplied current synthetic values.
-- **Actual result:** **PARTIAL (USER-REPORTED)** — source-link interaction with the previous MOHAP facility-licensing reference was reported; that destination failed to load in the user's tested browsers and mobile network. The metadata now points to the official practitioner-licensing application service, but this updated destination has not been tested and remains **UNVERIFIED**. Neither result establishes a dashboard-code failure.
-- **Status:** PARTIAL (USER-REPORTED PASS / BLOCKED)
-- **Evidence / notes:** `who-controls-rail.tsx` and backend source metadata. The prior URL's link interaction was reported, but the corrected MOHAP destination has not been tested; destination availability remains unverified.
+- **Actual result:** **PARTIAL / FAILED LINK ACCESS (USER-REPORTED)** — the user tested the updated MOHAP Practitioner Licensing Service link from the dashboard in a browser, and the attempted link did not load. This records only the observed link-access failure; it does not establish that the MOHAP service itself is unavailable. The previous facility-licensing URL also failed to load in the user's tested browsers and mobile network. The MOHAP source-verification gap remains documented.
+- **Status:** PARTIAL (USER-REPORTED — LINK ACCESS FAILED)
+- **Evidence / notes:** `who-controls-rail.tsx` and backend source metadata. The updated destination was attempted in a browser, but did not load. No conclusion about service availability or dashboard-code failure is supported by this result.
 
 ### UAT-18 — Why This Matters panel
 
@@ -262,16 +262,16 @@ The original POC-59 Excel specification and separate official UAT instruction pa
 | User-reported passes | 25 — not independently repeated |
 | Independently performed browser UAT passes | 0 |
 | Not tested | 0 |
-| Partial (includes previous destination failure) | 1 |
-| Failures recorded | 0 |
-| Previous destination failures | 1 (MOHAP facility-licensing URL; updated practitioner-licensing URL is UNTESTED / UNVERIFIED, UAT-17) |
+| Partial | 1 (UAT-17: MOHAP link-access failure observations) |
+| Cases marked FAIL | 0 (UAT-17 remains PARTIAL; failed link access is recorded within that case) |
+| MOHAP failed link-access observations | 2 (previous facility-licensing URL and updated practitioner-licensing service link; UAT-17 records attempted link access only, not service availability) |
 | UAT status | **IN PROGRESS — NOT COMPLETE** |
 
-“No failures recorded” means no failed result has been entered in this checklist; it does not mean all cases passed.
+No cases are marked outright FAIL; UAT-17 remains PARTIAL and records the failed link-access observations.
 
 ### User-reported pass coverage
 
-The reported successful checks are recorded only as **PASS (USER-REPORTED)**. These include dashboard refresh/final visibility (UAT-01), summary cards (UAT-02), map interactions (UAT-03), region and modality filters (UAT-04–05), Usage Trends and its period filter (UAT-06–07), global search and syntax variants (UAT-08–09), combined filters (UAT-10), Licensing Compliance (UAT-11), adverse events and empty behavior (UAT-12–13), referral visualization/tooltips (UAT-14–16), source-link interaction (UAT-17), Why This Matters (UAT-18), CSV export action and full/filtered contents (UAT-19–20), synthetic-data disclaimer/timestamp (UAT-21), empty states (UAT-22), keyboard navigation (UAT-23), responsive layout near 390px (UAT-24), filter reset using UAE, Ayurveda, and a Qatar search (UAT-25), and browser Console (UAT-26). Exact inputs and detailed evidence were not always recorded. All reported passes remain user-reported, not independently verified. The previous MOHAP facility-licensing URL failed to load; the updated practitioner-licensing URL remains UNTESTED / UNVERIFIED under UAT-17.
+The reported successful checks are recorded only as **PASS (USER-REPORTED)**. These include dashboard refresh/final visibility (UAT-01), summary cards (UAT-02), map interactions (UAT-03), region and modality filters (UAT-04–05), Usage Trends and its period filter (UAT-06–07), global search and syntax variants (UAT-08–09), combined filters (UAT-10), Licensing Compliance (UAT-11), adverse events and empty behavior (UAT-12–13), referral visualization/tooltips (UAT-14–16), source-link interaction (UAT-17), Why This Matters (UAT-18), CSV export action and full/filtered contents (UAT-19–20), synthetic-data disclaimer/timestamp (UAT-21), empty states (UAT-22), keyboard navigation (UAT-23), responsive layout near 390px (UAT-24), filter reset using UAE, Ayurveda, and a Qatar search (UAT-25), and browser Console (UAT-26). Exact inputs and detailed evidence were not always recorded. All reported passes remain user-reported, not independently verified. For UAT-17, both the previous facility-licensing URL and the updated practitioner-licensing service link failed to load when attempted; the latter result is a user-reported browser observation and does not establish service availability.
 
 ## Known limitations and outstanding issues
 
@@ -287,4 +287,4 @@ These are carried forward from `VAR_REPORT.md` and are not marked resolved by th
 
 ## Completion and approval
 
-UAT remains **IN PROGRESS**: 25 cases have user-reported passes, none are marked NOT TESTED, and UAT-17 is partial because the previous MOHAP facility-licensing URL failed to load while the updated practitioner-licensing URL remains UNTESTED / UNVERIFIED. No browser UAT pass was independently performed for this checklist. This checklist does not grant or imply formal Real Rails approval. Record the tester, date, environment, actual result, and evidence for any newly executed case; preserve USER-REPORTED labels unless a result is independently repeated.
+UAT remains **IN PROGRESS**: 25 cases have user-reported passes, none are marked NOT TESTED, and UAT-17 is partial because the previous facility-licensing URL and the updated practitioner-licensing service link both failed to load when attempted. The updated-link observation does not establish that the MOHAP service itself is unavailable. No browser UAT pass was independently performed for this checklist. This checklist does not grant or imply formal Real Rails approval. Record the tester, date, environment, actual result, and evidence for any newly executed case; preserve USER-REPORTED labels unless a result is independently repeated.
