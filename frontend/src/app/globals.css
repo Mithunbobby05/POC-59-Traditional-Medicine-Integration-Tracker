@@ -207,11 +207,10 @@ h1 { max-width: 880px; margin: 14px 0 0; color: #edf2f4; font-size: clamp(31px, 
 .why-item strong { color: #d1dadd; font-size: 14px; font-weight: 500; }
 .why-item p { margin: 5px 0 0; color: #b0bdc3; font-size: 13px; line-height: 1.5; }
 .control-layers { margin-top: 11px; }
-.control-layer { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 8px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
+.control-layer { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 8px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
 .control-layer-id { padding-top: 1px; color: #9ac8b4; font-size: 12px; letter-spacing: .05em; }
 .control-layer strong { color: #d2dcdf; font-size: 14px; font-weight: 500; }
 .control-layer p { margin: 4px 0 0; color: #b0bdc3; font-size: 13px; line-height: 1.45; }
-.layer-chevron { color: #62747c; font-size: 12px; }
 .source-ecosystem { margin-top: 13px; padding: 11px; border: 1px solid #293a3c; border-radius: 6px; background: #101a1d; }
 .source-ecosystem-label { color: #9ac8b4; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
 .source-reference-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 9px; }

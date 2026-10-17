@@ -133,10 +133,10 @@ SOURCE_METADATA = [
     ),
     LICENSING_SOURCE,
     SourceMetadata(
-        dataset="Practitioner qualification and evaluation reference",
-        intended_future_source="UAE MOHAP complementary-medicine licensing information",
+        dataset="Traditional and complementary medicine facility licensing reference",
+        intended_future_source="UAE MOHAP final approval for licensing/re-licensing health facilities, including traditional and complementary medicine centers",
         note="Intended future reference only; no MOHAP records are used in this demonstration API.",
-        url="https://mohap.gov.ae/documents/20117/0/Healthcare%2Bprofessional%2Bevaluation%2B%281%29.pdf/b4428178-29df-264d-6d02-71cb5e836884?t=1738817875021",
+        url="https://mohap.gov.ae/en/w/final-approval-for-licensing-re-licensing-health-facility",
     ),
     SourceMetadata(
         dataset="Traditional, complementary and alternative medicine practice reference",

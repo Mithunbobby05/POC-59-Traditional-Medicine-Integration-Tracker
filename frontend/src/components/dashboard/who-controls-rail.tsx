@@ -14,7 +14,7 @@ const controlLayers = [
 export function WhoControlsRail({ sources }: WhoControlsRailProps) {
   const references = [
     { label: "WHO Traditional Medicine Strategy", match: "WHO Traditional Medicine Strategy", type: "Reference framework" },
-    { label: "UAE MOHAP", match: "UAE MOHAP", type: "Licensing registry" },
+    { label: "UAE MOHAP", match: "UAE MOHAP", type: "Facility licensing" },
     { label: "Dubai Health Authority", match: "Dubai Health Authority", type: "Health authority reports" },
     { label: "Saudi SFDA", match: "Saudi SFDA", type: "Product registration" },
   ].map((reference) => ({
@@ -37,7 +37,6 @@ export function WhoControlsRail({ sources }: WhoControlsRailProps) {
           <div className="control-layer" key={layer.id}>
             <span className="control-layer-id">{layer.id}</span>
             <div><strong>{layer.title}</strong><p>{layer.detail}</p></div>
-            <span className="layer-chevron" aria-hidden="true">↗</span>
           </div>
         ))}
       </div>

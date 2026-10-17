@@ -130,7 +130,7 @@ The synthetic geographic examples are the United Arab Emirates, Saudi Arabia, an
 These are intended future references only; they do not provide the current dashboard values and are not queried by the application:
 
 - [WHO Traditional Medicine Strategy](https://www.who.int/publications/i/item/9789240113176)
-- [UAE MOHAP complementary-medicine / healthcare-professional evaluation information](https://mohap.gov.ae/documents/20117/0/Healthcare%2Bprofessional%2Bevaluation%2B%281%29.pdf/b4428178-29df-264d-6d02-71cb5e836884?t=1738817875021)
+- [UAE MOHAP final approval for health facility licensing, including traditional and complementary medicine centers](https://mohap.gov.ae/en/w/final-approval-for-licensing-re-licensing-health-facility)
 - [Dubai Health Authority TCAM practice guidance](https://dha.gov.ae/uploads/112021/8ffadaa8-95d2-42e8-8c9a-f75fcc532873.pdf)
 - [Saudi SFDA herbal-product information](https://www.sfda.gov.sa/en/herbal-drugs)
 
