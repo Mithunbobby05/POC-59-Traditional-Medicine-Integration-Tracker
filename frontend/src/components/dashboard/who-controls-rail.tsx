@@ -17,10 +17,8 @@ export function WhoControlsRail({ sources }: WhoControlsRailProps) {
   )?.url;
   const references = [
     { label: "WHO Traditional Medicine Strategy", url: sourceUrl("WHO Traditional Medicine Strategy"), type: "Reference framework · contextual only" },
-    { label: "UAE MOHAP practitioner licensing", url: sourceUrl("UAE MOHAP"), type: "Application service · user-reported link failure; service status unverified" },
     { label: "MOHAP Licensed Health Workforce Data 2023", url: "https://mohap.gov.ae/en/w/licensed-health-workforce-data_2023-1", type: "Workforce dataset · T&CM counts unverified" },
     { label: "DHA TCAM scope-of-practice guidance", url: sourceUrl("Dubai Health Authority"), type: "Regulatory guidance · specified department reports unverified" },
-    { label: "DHA Dubai Health Investment Guide 2024", url: "https://www.dha.gov.ae/uploads/122024/Dubai%20Health%20Investment%20Guide20241247378.pdf", type: "Indexed 2022: 1% workforce; 61 facilities (pp. 24–25) · PDF images unverified" },
     { label: "Saudi SFDA herbal-drug listings", url: sourceUrl("Saudi SFDA"), type: "Searchable product listings · no data integration" },
   ];
 
