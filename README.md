@@ -150,3 +150,6 @@ The dashboard depends on the local FastAPI backend for data. If it is not runnin
 ## Known npm audit finding
 
 `npm audit --json` on 18 October 2026 exited 1 with five high-severity package findings associated with the single `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), affecting `braces@3.0.3` through `micromatch` → `fast-glob` → `@next/eslint-plugin-next` → `eslint-config-next@16.3.8`. The chain is in the development dependency tree; `npm ls --omit=dev` showed none of these packages and `npm audit --omit=dev --json` reported zero findings. The advisory lists no patched `braces` version. npm's suggested remediation is a major downgrade of `eslint-config-next` to 14.2.35, which was not applied because compatibility with the project's Next.js 16.3.8 setup is unverified. No dependency fix was applied. The finding remains unresolved; its development-only location does not establish that the application is secure or that the issue cannot affect production.
+## Demo Video
+
+[Watch the POC-59 Dashboard Demo](https://drive.google.com/file/d/1slocIjPKFvI7Xc1ClwsvMH-mMlFVVH21/view?usp=sharing)
