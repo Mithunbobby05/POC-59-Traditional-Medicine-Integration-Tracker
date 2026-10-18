@@ -166,7 +166,7 @@ h1 { max-width: 880px; margin: 14px 0 0; color: #edf2f4; font-size: clamp(31px, 
 
 /* Ranking table */
 .table-scroll { overflow: auto; max-height: 370px; margin-top: 14px; border: 1px solid var(--border-soft); border-radius: 6px; scrollbar-color: #33434c #11191f; scrollbar-width: thin; }
-.compliance-table { width: 100%; min-width: 760px; border-collapse: collapse; text-align: left; font-size: 14px; }
+.compliance-table { width: 100%; min-width: 640px; border-collapse: collapse; text-align: left; font-size: 14px; }
 .compliance-table thead { position: sticky; top: 0; z-index: 1; background: #141e25; }
 .compliance-table th { padding: 10px 9px; color: #b0bdc3; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
 .compliance-table td { padding: 10px 9px; border-top: 1px solid var(--border-soft); color: #c0cbd0; font-size: 14px; vertical-align: middle; }

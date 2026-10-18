@@ -1,8 +1,8 @@
 const reasons = [
-  { number: "01", title: "Licensing visibility", copy: "See how practitioner authorization varies across regions and modalities." },
-  { number: "02", title: "Usage patterns", copy: "Track where reported activity is changing and where oversight may need attention." },
-  { number: "03", title: "Safety signals", copy: "Bring adverse-event reports into view alongside modality and jurisdiction." },
-  { number: "04", title: "Referral pathways", copy: "Understand how complementary care connects with assessment, conventional care, and follow-up." },
+  { number: "01", title: "Licensing visibility", copy: "Compare how practitioner authorization is represented across regions and modalities." },
+  { number: "02", title: "Usage patterns", copy: "Use illustrative activity patterns to frame where oversight questions may arise." },
+  { number: "03", title: "Safety signals", copy: "Review illustrative adverse-event examples alongside modality and jurisdiction." },
+  { number: "04", title: "Referral pathways", copy: "Explore an illustrative path from complementary care through conventional assessment and follow-up." },
 ];
 
 export function WhyThisMatters() {
