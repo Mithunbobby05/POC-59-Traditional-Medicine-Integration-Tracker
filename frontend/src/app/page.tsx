@@ -96,7 +96,7 @@ export default function Home() {
   return (
     <main className="dashboard-shell">
       <header className="topbar">
-        <a className="brand" href="#main" aria-label="Traditional Medicine Integration Tracker home">
+        <a className="brand" href="#main" aria-label="Traditional & Complementary Medicine Integration Tracker home">
           <span className="brand-mark" aria-hidden="true">T</span>
           <span>REAL RAILS <span className="brand-divider">/</span> POC-59</span>
         </a>
@@ -107,91 +107,95 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="intro" id="main" aria-labelledby="page-title">
-        <div className="intro-copy">
-          <p className="eyebrow">HEALTH SYSTEMS <span>·</span> INTEGRATION TRACKER</p>
-          <h1 id="page-title">Traditional &amp; Complementary<br className="desktop-break" /> Medicine Integration Tracker</h1>
-          <p className="subtitle">A regional view of licensing, safety signals, usage patterns, and pathways into conventional care.</p>
-        </div>
-        <div className="intro-side-note"><span>INTELLIGENCE BRIEF</span><strong>POC-59</strong><small>DEMONSTRATION BUILD</small></div>
-      </section>
+      <div className="dashboard-layout">
+        <section className="dashboard-primary" aria-label="Primary dashboard analysis">
+          <section className="intro" id="main" aria-labelledby="page-title">
+            <div className="intro-copy">
+              <p className="eyebrow">HEALTH SYSTEMS <span>·</span> INTEGRATION TRACKER</p>
+              <h1 id="page-title">Traditional &amp; Complementary Medicine Integration Tracker</h1>
+              <p className="subtitle">A regional view of licensing, safety signals, usage patterns, and pathways into conventional care.</p>
+            </div>
+          </section>
 
-      {!dashboard && !error && (
-        <div className="loading-panel" role="status"><span className="loading-mark" /> Connecting to the local synthetic data API…</div>
-      )}
+          {!dashboard && !error && (
+            <div className="loading-panel" role="status"><span className="loading-mark" /> Connecting to the local synthetic data API…</div>
+          )}
 
-      {error && (
-        <div className="error-panel" role="alert">
-          <div><strong>Dashboard data unavailable</strong><p>{error}</p><small>Confirm the FastAPI service is running at the configured local API address.</small></div>
-          <button className="retry-button" type="button" onClick={() => void loadDashboard()}>Retry connection</button>
-        </div>
-      )}
+          {error && (
+            <div className="error-panel" role="alert">
+              <div><strong>Dashboard data unavailable</strong><p>{error}</p><small>Confirm the FastAPI service is running at the configured local API address.</small></div>
+              <button className="retry-button" type="button" onClick={() => void loadDashboard()}>Retry connection</button>
+            </div>
+          )}
+
+          {dashboard && (
+            <>
+              <DataProvenance sources={dashboard.sources.sources} />
+              <DashboardFilters
+                regions={dashboard.licensingMap.regions.map((item) => item.region)}
+                modalities={modalities}
+                regionCode={regionCode}
+                modality={modality}
+                period={period}
+                search={search}
+                onRegionChange={setRegionCode}
+                onModalityChange={setModality}
+                onPeriodChange={setPeriod}
+                onSearchChange={setSearch}
+                onReset={resetFilters}
+              />
+              <div className="dashboard-grid primary-grid">
+                <LicensingMap
+                  regions={dashboard.licensingMap.regions}
+                  modality={modality}
+                  selectedRegion={regionCode}
+                  search={search}
+                  onRegionSelect={setRegionCode}
+                />
+                <UsageTrends
+                  observations={dashboard.usage.observations}
+                  modality={modality}
+                  regionCode={regionCode}
+                  period={period}
+                  search={search}
+                />
+              </div>
+              <ComplianceTable
+                rankings={dashboard.rankings}
+                regions={dashboard.licensingMap.regions}
+                regionCode={regionCode}
+                modality={modality}
+                search={search}
+              />
+              <ReferralFlow flows={dashboard.referralFlow.flows} unit={dashboard.referralFlow.unit} />
+            </>
+          )}
+        </section>
+
+        <aside className="dashboard-sidebar" aria-label="Supporting intelligence">
+          <div className="intro-side-note"><span>INTELLIGENCE BRIEF</span><strong>POC-59</strong><small>DEMONSTRATION BUILD</small></div>
+          {dashboard && (
+            <>
+              <SummaryCards
+                summary={dashboard.summary}
+                events={dashboard.adverseEvents.events}
+                regionCode={regionCode}
+                modality={modality}
+              />
+              <HowToRead />
+              <AdverseEvents events={dashboard.adverseEvents.events} regionCode={regionCode} modality={modality} search={search} />
+              <WhyThisMatters />
+              <WhoControlsRail sources={dashboard.sources.sources} />
+            </>
+          )}
+        </aside>
+      </div>
 
       {dashboard && (
-        <>
-          <DataProvenance sources={dashboard.sources.sources} />
-          <HowToRead />
-          <SummaryCards
-            summary={dashboard.summary}
-            events={dashboard.adverseEvents.events}
-            regionCode={regionCode}
-            modality={modality}
-          />
-
-          <DashboardFilters
-            regions={dashboard.licensingMap.regions.map((item) => item.region)}
-            modalities={modalities}
-            regionCode={regionCode}
-            modality={modality}
-            period={period}
-            search={search}
-            onRegionChange={setRegionCode}
-            onModalityChange={setModality}
-            onPeriodChange={setPeriod}
-            onSearchChange={setSearch}
-            onReset={resetFilters}
-          />
-
-          <div className="dashboard-grid primary-grid">
-            <LicensingMap
-              regions={dashboard.licensingMap.regions}
-              modality={modality}
-              selectedRegion={regionCode}
-              search={search}
-              onRegionSelect={setRegionCode}
-            />
-            <UsageTrends
-              observations={dashboard.usage.observations}
-              modality={modality}
-              regionCode={regionCode}
-              period={period}
-              search={search}
-            />
-          </div>
-
-          <div className="dashboard-grid secondary-grid">
-            <AdverseEvents events={dashboard.adverseEvents.events} regionCode={regionCode} modality={modality} search={search} />
-            <ComplianceTable
-              rankings={dashboard.rankings}
-              regions={dashboard.licensingMap.regions}
-              regionCode={regionCode}
-              modality={modality}
-              search={search}
-            />
-          </div>
-
-          <ReferralFlow flows={dashboard.referralFlow.flows} unit={dashboard.referralFlow.unit} />
-
-          <div className="dashboard-grid context-grid">
-            <WhyThisMatters />
-            <WhoControlsRail sources={dashboard.sources.sources} />
-          </div>
-
-          <footer className="footer-note">
-            <span>POC-59 · REAL RAILS</span>
-            <span>Illustrative analysis only · No external healthcare sources connected</span>
-          </footer>
-        </>
+        <footer className="footer-note">
+          <span>POC-59 · REAL RAILS</span>
+          <span>Illustrative analysis only · No external healthcare sources connected</span>
+        </footer>
       )}
     </main>
   );
